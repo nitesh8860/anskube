@@ -1,21 +1,15 @@
 ---
-# TODO(jchaloup): this needs to be refactored
-#     lets set the source type to package manager by default
-#     and to pass only when on atomic/coreos
+
 - name: Force etcd_source_type to package manager
   set_fact:
     etcd_source_type: "package-manager"
   when: not is_atomic and not is_coreos
 
-# TODO(jchaloup): temporary installing etcd from github release
-#     etcd installed via package manager leads to flannel failure
 - name: Force Ubuntu-16.04 to install etcd from github release
   set_fact:
     etcd_source_type: "github-release"
   when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version|int == 16
 
-# The following four tasks must be before check for Ubuntu < 16
-# Ubuntu-14.* handles the etcd user/group/etcd dir differently
 - name: Create system etcd group
   group:
     name: etcd
@@ -46,10 +40,6 @@
     - reload systemd
   when: etcd_source_type == "github-release"
 
-- name: Force Ubuntu-14.04 to install etcd from github release
-  set_fact:
-    etcd_source_type: "github-release"
-  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version|int < 16
 
 - name: Install etcd via package manager
   action: "{{ ansible_pkg_mgr }}"
