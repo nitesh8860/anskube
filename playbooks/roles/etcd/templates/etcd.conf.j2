@@ -11,7 +11,6 @@
 {%- endfor -%}
 {% endmacro -%}
 
-networking="none"
 
 {% if groups[etcd_peers_group] and groups[etcd_peers_group] | length > 0 %}
 ETCD_NAME={{ ansible_hostname }}
@@ -38,26 +37,17 @@ ETCD_INITIAL_CLUSTER_TOKEN={{ etcd_initial_cluster_token }}
 #ETCD_DISCOVERY_PROXY=""
 {% endif %}
 
-{% if groups[etcd_peers_group] and groups[etcd_peers_group] | length > 0 and networking == "contiv" %}
+{% if groups[etcd_peers_group] and groups[etcd_peers_group] | length > 0  %}
 ETCD_LISTEN_PEER_URLS={{ etcd_listen_peer_legacy_urls }}
 {% else %}
 ETCD_LISTEN_PEER_URLS={{ etcd_listen_peer_urls }}
 {% endif %}
 
-{% if networking == "contiv" %}
-ETCD_ADVERTISE_CLIENT_URLS={{ etcd_advertise_client_legacy_urls }}
-ETCD_LISTEN_CLIENT_URLS={{ etcd_listen_client_legacy_urls }}
-{% else %}
 ETCD_ADVERTISE_CLIENT_URLS={{ etcd_advertise_client_urls }}
 ETCD_LISTEN_CLIENT_URLS="{{ etcd_listen_client_urls }}"
-{% endif %}
-
 #[proxy]
-{% if etcd_is_proxy or (networking == "contiv" and inventory_hostname in groups['nodes']) %}
-ETCD_PROXY="on"
-{% else %}
+
 ETCD_PROXY="off"
-{% endif %}
 
 #[security]
 {% if etcd_url_scheme == 'https' -%}
