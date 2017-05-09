@@ -1,0 +1,12 @@
+apt-get -y install ansible
+apt-get -y remove ansible
+apt-get -y install git
+mkdir ansibletmp
+cd ansibletmp
+git clone https://github.com/ansible/ansible.git
+apt-get -y install python-setuptools
+apt-get -y install make
+cd ansible
+make
+make install
+
