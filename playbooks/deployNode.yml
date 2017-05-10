@@ -1,6 +1,6 @@
 ---
 - name: Deploy node
-  hosts: nodes
+  hosts: node
   become: yes
   roles:
     - node
