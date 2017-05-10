@@ -14,11 +14,13 @@
   set_fact:
     docker_config_net: "{{ docker_config_dir }}/docker-network"
     docker_env_export: ""
+    
 
 - name: Local vars for upstart installs
   set_fact:
     docker_config_net: "{{ docker_config_dir }}/docker"
     docker_env_export: "export "
+    docker_use_upstart: false
   when: docker_use_upstart
 
 - name: Verify docker config files exists
