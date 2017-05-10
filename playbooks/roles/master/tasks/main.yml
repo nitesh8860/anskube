@@ -1,6 +1,5 @@
 ---
-- hosts: all
-  become: yes
+
 # Install the kube master components
 # E.g. applying package manager, downloading binaries from github, etc.
 - name: Install kube master
