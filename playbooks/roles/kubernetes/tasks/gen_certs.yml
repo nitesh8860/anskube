@@ -53,10 +53,10 @@
     - "{{ kube_cert_dir }}/kubecfg.crt"
     - "{{ kube_cert_dir }}/kubecfg.key"
 
-- name: Check CA private key permissions if kube_cert_keep_ca is set to "true"
-  file:
-    path: "{{ kube_cert_dir }}/ca.key"
-    group: "{{ kube_cert_group }}"
-    owner: kube
-    mode: 0440
+#- name: Check CA private key permissions if kube_cert_keep_ca is set to "true"
+ # file:
+  #  path: "{{ kube_cert_dir }}/ca.key"
+   # group: "{{ kube_cert_group }}"
+    #owner: kube
+  #  mode: 0440
   #when: kube_cert_keep_ca
