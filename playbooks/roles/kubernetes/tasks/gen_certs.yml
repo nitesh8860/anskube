@@ -59,4 +59,4 @@
     group: "{{ kube_cert_group }}"
     owner: kube
     mode: 0440
-  when: kube_cert_keep_ca
+  #when: kube_cert_keep_ca
