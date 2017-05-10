@@ -4,21 +4,11 @@
     docker_config_dir: "/etc/default"
   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
 
-# TODO(jchaloup): This needs to go under install.yml, it is installation source dependent
-- name: Create config file directory
-  file: path={{ docker_config_dir }} state=directory
-  tags: install
+
 
 - name: Install docker
   include: install.yml
   tags: install
-
-#
-# systemd service configuration uses EnvironmentFile (docker and docker-network)
-# upstart service configuration sources docker_config_dir / docker
-#
-- set_fact:
-    docker_use_upstart: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int < 15
 
 - name: Local vars for systemd installs
   set_fact:
@@ -31,7 +21,6 @@
     docker_env_export: "export "
   when: docker_use_upstart
 
-# TODO(jchaloup): This needs to go under install.yml, it is installation source dependent
 - name: Verify docker config files exists
   file: path={{ docker_config_dir }}/{{ item }} state=touch
   changed_when: false
