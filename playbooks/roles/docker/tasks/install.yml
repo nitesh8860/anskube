@@ -1,15 +1,20 @@
 ---
-- include: debian-install.yml
-  when: ansible_distribution == "Debian" and docker_source_type == "package-manager"
+- name: Install GPG key
+  command: apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 {% if http_proxy is defined -%}--keyserver-options http-proxy={{ http_proxy }} {% endif -%} --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
 
-- include: apt-docker-install.yml
-  when: ansible_distribution == "Ubuntu" and docker_source_type == "package-manager"
+- name: Configure apt repository
+  template: src="docker.list.j2" dest="/etc/apt/sources.list.d/docker.list"
+  register: add_apt_source_docker
 
-- include: generic-install.yml
-  when: ansible_distribution != "Debian" and ansible_distribution != "Ubuntu" and not is_coreos and docker_source_type == "package-manager"
+- name: Update repository information
+  command: apt-get update
+  when: add_apt_source_docker.changed
 
-- include: coreos.yml
-  when: is_coreos
+- name: Install docker engine
+  action: "{{ ansible_pkg_mgr }}"
+  args:
+    name: docker-engine
+    state: latest
 
 - include: custom-repo-install.yml
   when: docker_source_type == "custom-repository"
