@@ -2,6 +2,7 @@
 - name: Override docker config file directory for Debian
   set_fact:
     docker_config_dir: "/etc/default"
+    docker_use_upstart: false
   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
 
 
@@ -20,7 +21,7 @@
   set_fact:
     docker_config_net: "{{ docker_config_dir }}/docker"
     docker_env_export: "export "
-    docker_use_upstart: false
+    
   when: docker_use_upstart
 
 - name: Verify docker config files exists
