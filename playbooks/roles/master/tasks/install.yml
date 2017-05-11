@@ -4,13 +4,13 @@
   set_fact:
     kube_source_type: "github-release"
 
-- name: Generic | Install kubernetes master
-  action: "{{ ansible_pkg_mgr }}"
-  args:
-    name: kubernetes-master
-    state: latest
-  notify:
-    - restart daemons
+#- name: Generic | Install kubernetes master
+#  action: "{{ ansible_pkg_mgr }}"
+#  args:
+#    name: kubernetes-master
+#    state: latest
+#  notify:
+#    - restart daemons
 
 - include: localBuildInstall.yml
   when: kube_source_type == "localBuild"
