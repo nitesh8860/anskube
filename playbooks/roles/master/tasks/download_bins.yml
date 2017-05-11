@@ -8,6 +8,7 @@
 - name: Set a list of kube master binaries to download
   set_fact:
     kube_binaries: "{{ kube_master_binaries }}"
+    networking: ""
 
 - name: Extend the list of kube master binaries with kubelet
   set_fact:
