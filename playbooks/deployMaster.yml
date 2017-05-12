@@ -4,6 +4,6 @@
   become: yes
   roles:
     - { role: etcd-certs, when: apiserver_etcd_use_certs|default(false) }
-    - masternew
+    - master
   tags:
     - masters
