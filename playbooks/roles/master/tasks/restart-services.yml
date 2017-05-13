@@ -1,0 +1,21 @@
+---
+
+- name: Call restart apiserver
+  include: apiserver-restart.yml
+  when: apiserver_modified == true and apiserver_started.changed == false
+  tags: restart
+
+- name: Call restart controller-manager
+  include: controller-manager-restart.yml
+  when: controller_manager_modified == true and controller_manager_started.changed == false
+  tags: restart
+
+- name: Call restart scheduler
+  include: scheduler-restart.yml
+  when: scheduler_modified == true and scheduler_started.changed == false
+  tags: restart
+
+- name: Call restart kubelet
+  include: kubelet-restart.yml
+  when: kubelet_modified == true and kubelet_started.changed == false
+  tags: restart

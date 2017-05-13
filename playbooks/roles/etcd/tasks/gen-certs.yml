@@ -7,7 +7,6 @@
     group: root
     mode: 0740
 
-# This fixes a bug where default vars are not set in the hostvars
 - name: Set cert node ips
   set_fact:
     etcd_machine_address: "{{ etcd_machine_address }}"

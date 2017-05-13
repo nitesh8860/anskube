@@ -1,6 +1,5 @@
 ---
 
-
 - name: Retrieve systemd files for github-release kube_source_type type
   include: retrieve-systemd-files.yml
   

@@ -11,8 +11,8 @@
 - include: deployDocker.yml
 
 # install kube master services
-- include: deploy-master.yml
+- include: deployMaster.yml
 
 # install kubernetes on the nodes
-- include: deploy-node.yml
+- include: deployNode.yml
 

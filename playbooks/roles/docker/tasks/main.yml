@@ -4,7 +4,6 @@
     docker_config_dir: "/etc/default"
   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
 
-# TODO(jchaloup): This needs to go under install.yml, it is installation source dependent
 - name: Create config file directory
   file: path={{ docker_config_dir }} state=directory
   tags: install
@@ -13,25 +12,11 @@
   include: install.yml
   tags: install
 
-#
-# systemd service configuration uses EnvironmentFile (docker and docker-network)
-# upstart service configuration sources docker_config_dir / docker
-#
-- set_fact:
-    docker_use_upstart: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int < 15
-
 - name: Local vars for systemd installs
   set_fact:
     docker_config_net: "{{ docker_config_dir }}/docker-network"
     docker_env_export: ""
 
-- name: Local vars for upstart installs
-  set_fact:
-    docker_config_net: "{{ docker_config_dir }}/docker"
-    docker_env_export: "export "
-  when: docker_use_upstart
-
-# TODO(jchaloup): This needs to go under install.yml, it is installation source dependent
 - name: Verify docker config files exists
   file: path={{ docker_config_dir }}/{{ item }} state=touch
   changed_when: false
@@ -75,10 +60,6 @@
     - restart docker
   tags: configure
 
-# The client version is enough for this deployment as the installer will always sync
-# client and server version.
-# As the server is not yet running the command exits with non-zero value.
-# The carriage return char is related to https://github.com/docker/docker/issues/8513
 - name: Detect docker version
   script: detect-docker-version.sh
   register: docker_version

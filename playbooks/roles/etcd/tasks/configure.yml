@@ -3,10 +3,6 @@
   file: path={{ etcd_conf_dir }} state=directory
 
 - include: etcd-configure.yml
-  when: not is_coreos
-
-- include: etcd2-configure.yml
-  when: is_coreos
 
 - include: firewalld-configure.yml
   when: has_firewalld
