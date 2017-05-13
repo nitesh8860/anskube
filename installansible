@@ -6,12 +6,10 @@ apt-get -y install make
 cd 
 git clone https://github.com/ansible/ansible.git
 git branch -a
-git checkout delmany
+git checkout final
 cd ansible
 make
 make install
 
-cp inventory/ /etc/ansible/
-cp hosts hosts.original
-mv hostfile hosts
+
 
