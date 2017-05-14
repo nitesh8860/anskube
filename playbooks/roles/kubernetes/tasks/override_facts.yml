@@ -1,8 +1,4 @@
 ---
-- name: Update {{ kube_script_dir }} if this is atomic
-  set_fact:
-    kube_script_dir: "/usr/local/libexec/kubernetes"
-  when: is_atomic and kube_script_dir == "/usr/libexec/kubernetes"
 
 - name: Initialize the python_bin fact
   set_fact:
